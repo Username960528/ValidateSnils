@@ -1,13 +1,17 @@
 package org.example;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "validateSnilsResponse")
+@XmlRootElement(namespace = "http://example.org/snils", name = "validateSnilsResponse")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ValidateSnilsResponse {
+
+    @XmlElement(namespace = "http://example.org/snils")
     private String result;
 
-    @XmlElement
     public String getResult() {
         return result;
     }

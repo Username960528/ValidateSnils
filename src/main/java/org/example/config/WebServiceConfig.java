@@ -51,6 +51,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         webServiceTemplate.setUnmarshaller(marshaller);
         return webServiceTemplate;
     }
+
     @Bean
     public XsdSchema snilsSchema() {
         return new SimpleXsdSchema(new ClassPathResource("snils.xsd"));
