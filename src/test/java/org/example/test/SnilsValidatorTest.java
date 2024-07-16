@@ -1,5 +1,9 @@
 package org.example.test;
 
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.example.SnilsValidator;
+
 public class SnilsValidatorTest {
     @Test
     void testValidSnils() {
