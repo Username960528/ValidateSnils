@@ -4,7 +4,6 @@ import org.example.ValidateSnilsRequest;
 import org.example.ValidateSnilsResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,13 +18,55 @@ public class SnilsValidatorEndpointTest {
     @Autowired
     private WebServiceTemplate webServiceTemplate;
 
-    @Test
-    void testValidateSnilsEndpoint() {
+    private void validateSnils(String snils, String expectedResult) {
         ValidateSnilsRequest request = new ValidateSnilsRequest();
-        request.setSnils("112-233-445-95");
+        request.setSnils(snils);
 
         ValidateSnilsResponse response = (ValidateSnilsResponse) webServiceTemplate.marshalSendAndReceive(request);
 
-        assertEquals("Корректный", response.getResult());
+        assertEquals(expectedResult, response.getResult());
+    }
+
+    @Test
+    void testValidSnilsEndpoint() {
+        validateSnils("112-233-445 95", "Корректный");
+    }
+
+    @Test
+    void testValidSnilsAtMaximumEndpoint() {
+        validateSnils("999-999-999 01", "Корректный");
+    }
+
+    @Test
+    void testValidSnilsWithExtraDigitsEndpoint() {
+        validateSnils("112-233-445-95-000", "Корректный");
+    }
+
+    @Test
+    void testInvalidSnilsAboveMaximumEndpoint() {
+        validateSnils("999-999-999 99", "Некорректный");
+    }
+
+    @Test
+    void testInvalidSnilsWithIncorrectChecksumEndpoint() {
+        validateSnils("112-233-445 96", "Некорректный");
+    }
+
+    @Test
+    void testInvalidSnilsWithLessThan11DigitsEndpoint() {
+        validateSnils("112-233-445", "Некорректный");
+    }
+
+    @Test
+    void testInvalidSnilsWithLeadingZerosEndpoint() {
+        validateSnils("001-001-998 00", "Некорректный");
+    }
+
+    @Test
+    void testInvalidSnilsWithNullEndpoint() {
+        validateSnils(null, "Некорректный");
+    }
+    void testInvalidSnilsWithWords() {
+        validateSnils("abrakadabra", "Неккоректный");
     }
 }
