@@ -1,0 +1,29 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+# Gradle files
+.gradle/
+build/
+
+# Gradle Wrapper executable files
+!gradlew
+!gradlew.bat
+
+# Gradle wrapper jar and properties
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# IDE settings
+.idea/
+*.iml
+
+# Log files
+*.log
+
+.DS_Store
+
