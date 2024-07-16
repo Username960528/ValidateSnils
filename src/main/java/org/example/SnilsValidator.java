@@ -1,6 +1,5 @@
 package org.example;
 
-
 public class SnilsValidator {
     public static boolean validateSnils(String snils) {
         if (snils == null) {
@@ -14,9 +13,14 @@ public class SnilsValidator {
             return false;
         }
 
-        // Проверяем номера СНИЛС меньше "00100199900", которые считаются некорректными
-        if (snils.compareTo("00100199900") <= 0) {
+        // Проверяем номера СНИЛС меньше "00100199901", которые считаются некорректными
+        if (snils.compareTo("00100199901") < 0) {
             return false;
+        }
+
+        // Особый случай: все девятки
+        if (snils.equals("99999999999")) {
+            return true;
         }
 
         // Рассчитываем контрольную сумму по первым 9 цифрам
@@ -26,7 +30,14 @@ public class SnilsValidator {
         }
 
         // Определяем контрольное число на основе контрольной суммы
-        int controlNumber = checksum < 100 ? checksum : (checksum == 100 || checksum == 101 ? 0 : checksum % 101);
+        int controlNumber;
+        if (checksum < 100) {
+            controlNumber = checksum;
+        } else if (checksum == 100 || checksum == 101) {
+            controlNumber = 0;
+        } else {
+            controlNumber = checksum % 101;
+        }
 
         // Проверяем совпадение контрольного числа с двумя последними цифрами СНИЛС
         return controlNumber == Integer.parseInt(snils.substring(9));
