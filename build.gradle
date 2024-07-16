@@ -15,12 +15,15 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
+    implementation 'org.springframework.ws:spring-ws-core:3.1.1' // Ensure this line is added or updated with the correct version
+
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
+    // Remove the duplicate testImplementation for spring-boot-starter-test
 }
+
+
 
 test {
     useJUnitPlatform()
