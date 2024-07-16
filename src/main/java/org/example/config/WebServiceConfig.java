@@ -14,9 +14,13 @@ import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
+import java.util.Collections;
+
 @EnableWs
 @Configuration
 public class WebServiceConfig extends WsConfigurerAdapter {
+
+
 
     @Bean
     public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(ApplicationContext applicationContext) {
@@ -39,7 +43,8 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     @Bean
     public Jaxb2Marshaller marshaller() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        marshaller.setContextPath("org.example");
+        marshaller.setPackagesToScan("org.example");
+        marshaller.setMarshallerProperties(Collections.singletonMap(javax.xml.bind.Marshaller.JAXB_ENCODING, "UTF-8"));
         return marshaller;
     }
 
@@ -49,6 +54,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         WebServiceTemplate webServiceTemplate = new WebServiceTemplate();
         webServiceTemplate.setMarshaller(marshaller);
         webServiceTemplate.setUnmarshaller(marshaller);
+        webServiceTemplate.setDefaultUri("http://localhost:8080/ws");
         return webServiceTemplate;
     }
 
@@ -57,10 +63,5 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         return new SimpleXsdSchema(new ClassPathResource("snils.xsd"));
     }
 
-    @Bean
-    public WebServiceTemplate webServiceTemplate() {
-        WebServiceTemplate webServiceTemplate = new WebServiceTemplate();
-        // Configure the WebServiceTemplate as needed
-        return webServiceTemplate;
-    }
+
 }
