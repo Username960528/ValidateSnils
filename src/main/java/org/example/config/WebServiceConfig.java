@@ -42,6 +42,8 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 
     @Bean
     public WebServiceTemplate webServiceTemplate() {
-        return new WebServiceTemplate();
+        WebServiceTemplate webServiceTemplate = new WebServiceTemplate();
+        // Configure the WebServiceTemplate as needed
+        return webServiceTemplate;
     }
 }
