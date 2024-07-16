@@ -8,7 +8,7 @@ public class SnilsValidatorTest {
     @Test
     void testValidSnils() {
         assertEquals(true, SnilsValidator.validateSnils("112-233-445 95"));
-    }
+    } // pam
     @Test
     void testValidSnilsAtMaximum() {
         assertEquals(true, SnilsValidator.validateSnils("999-999-999 01"));
