@@ -2,34 +2,35 @@ package org.example;
 
 public class SnilsValidator {
     public static boolean validateSnils(String snils) {
+
         if (snils == null) {
             return false;
         }
-        // Удаляем все символы, кроме цифр
+        // Удаляем все символы кроме чисел
         snils = snils.replaceAll("\\D", "");
 
-        // Проверяем, что длина строго 11 цифр (9 цифр + 2 контрольные)
+        // Обрезаем до 11
+        if (snils.length() > 11) {
+            snils = snils.substring(0, 11);
+        }
+
+
         if (snils.length() != 11) {
             return false;
         }
 
-        // Проверяем номера СНИЛС меньше "00100199901", которые считаются некорректными
+        // Считаем некорректными числа меньше "00100199901"
         if (snils.compareTo("00100199901") < 0) {
             return false;
         }
 
-        // Особый случай: все девятки
-        if (snils.equals("99999999999")) {
-            return true;
-        }
-
-        // Рассчитываем контрольную сумму по первым 9 цифрам
+        // Контрольная сумму по первым 9 цифрам
         int checksum = 0;
         for (int i = 0; i < 9; i++) {
             checksum += Character.getNumericValue(snils.charAt(i)) * (9 - i);
         }
 
-        // Определяем контрольное число на основе контрольной суммы
+        // Вычислим контрольное число на основании контрольной суммы
         int controlNumber;
         if (checksum < 100) {
             controlNumber = checksum;
@@ -39,7 +40,8 @@ public class SnilsValidator {
             controlNumber = checksum % 101;
         }
 
-        // Проверяем совпадение контрольного числа с двумя последними цифрами СНИЛС
-        return controlNumber == Integer.parseInt(snils.substring(9));
+        // Cовпадение контрольного числа с двумя последними цифрами
+        int lastTwoDigits = Integer.parseInt(snils.substring(9));
+        return controlNumber == lastTwoDigits;
     }
 }
