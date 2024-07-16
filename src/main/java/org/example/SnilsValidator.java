@@ -14,7 +14,7 @@ public class SnilsValidator {
             snils = snils.substring(0, 11);
         }
 
-
+        // Проверяем что длина символов 11
         if (snils.length() != 11) {
             return false;
         }
@@ -30,7 +30,7 @@ public class SnilsValidator {
             checksum += Character.getNumericValue(snils.charAt(i)) * (9 - i);
         }
 
-        // Вычислим контрольное число на основании контрольной суммы
+        // Считаем контрольное число на основании контрольной суммы
         int controlNumber;
         if (checksum < 100) {
             controlNumber = checksum;
@@ -40,7 +40,7 @@ public class SnilsValidator {
             controlNumber = checksum % 101;
         }
 
-        // Cовпадение контрольного числа с двумя последними цифрами
+        // Валидация контрольного числа с двумя последними цифрами
         int lastTwoDigits = Integer.parseInt(snils.substring(9));
         return controlNumber == lastTwoDigits;
     }

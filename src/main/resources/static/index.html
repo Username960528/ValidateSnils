@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SNILS Validator</title>
+    <script>
+        async function validateSnils() {
+            const snils = document.getElementById("snils").value;
+            const response = await fetch(`/validate?snils=${snils}`);
+            const result = await response.text();
+            document.getElementById("result").innerText = result;
+        }
+    </script>
+</head>
+<body>
+<h1>SNILS Validator</h1>
+<input type="text" id="snils" placeholder="Enter SNILS">
+<button onclick="validateSnils()">Validate</button>
+<p id="result"></p>
+</body>
+</html>
