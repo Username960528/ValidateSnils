@@ -43,6 +43,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         return marshaller;
     }
 
+
     @Bean
     public WebServiceTemplate webServiceTemplate(Jaxb2Marshaller marshaller) {
         WebServiceTemplate webServiceTemplate = new WebServiceTemplate();
