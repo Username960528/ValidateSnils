@@ -17,7 +17,7 @@ public class SnilsValidatorControllerTest {
 
     @Test
     void testValidateSnilsEndpoint() throws Exception {
-        mockMvc.perform(get("/api/v1/validateSnils?snils=112-233-445-95"))
+        mockMvc.perform(get("/validate?snils=112-233-445-95"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Корректный"));
     }

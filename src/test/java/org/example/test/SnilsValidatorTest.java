@@ -7,6 +7,7 @@ import org.example.SnilsValidator;
 public class SnilsValidatorTest {
     @Test
     void testValidSnils() {
-        assertEquals("Корректный", SnilsValidator.validateSnils("112-233-445-95"));
+        boolean isValid = SnilsValidator.validateSnils("112-233-445-95");
+        assertEquals(true, isValid);
     }
 }
