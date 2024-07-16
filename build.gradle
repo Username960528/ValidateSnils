@@ -15,14 +15,14 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
-    implementation 'org.springframework.ws:spring-ws-core:3.1.1' // Ensure this line is added or updated with the correct version
-    implementation 'wsdl4j:wsdl4j:1.6.3' // Add this line
+    implementation 'org.springframework.ws:spring-ws-core:3.1.1'
+    implementation 'wsdl4j:wsdl4j:1.6.3'
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
-    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'  
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+    implementation 'org.springframework:spring-oxm:5.3.18'
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    // Remove the duplicate testImplementation for spring-boot-starter-test
 }
 
 
