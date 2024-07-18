@@ -33,6 +33,6 @@ test {
 }
 
 bootJar {
-    archiveBaseName = 'snils-validator'
+    archiveBaseName = 'snils'
     archiveVersion = ''
 }
