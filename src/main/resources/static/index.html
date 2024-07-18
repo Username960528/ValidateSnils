@@ -3,19 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>SNILS Validator</title>
-    <script> // pam
-        async function validateSnils() {
-            const snils = document.getElementById("snils").value;
-            const response = await fetch(`/validate?snils=${snils}`);
-            const result = await response.text();
-            document.getElementById("result").innerText = result;
+    <script>
+        function validateSnils() {
+            const snilsInput = document.getElementById('snilsInput').value;
+            const trimmedSnils = snilsInput.substring(0, 11); // Ensure max 11 characters
+            fetch(`/validate?snils=${trimmedSnils}`)
+                .then(response => response.text())
+                .then(result => {
+                    document.getElementById('result').innerText = result;
+                });
         }
 
+        function limitInputLength(event) {
+            const input = event.target;
+            if (input.value.length > 11) {
+                input.value = input.value.substring(0, 11);
+            }
+        }
     </script>
 </head>
 <body>
 <h1>SNILS Validator</h1>
-<input type="text" id="snils" placeholder="Enter SNILS">
+<input type="text" id="snilsInput" oninput="limitInputLength(event)" placeholder="Enter SNILS" maxlength="11">
 <button onclick="validateSnils()">Validate</button>
 <p id="result"></p>
 </body>
