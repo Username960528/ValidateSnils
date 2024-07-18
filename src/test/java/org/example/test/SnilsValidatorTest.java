@@ -10,8 +10,8 @@ public class SnilsValidatorTest {
         assertEquals(true, SnilsValidator.validateSnils("112-233-445 95"));
     }
     @Test
-    void testValidSnilsWithExtraDigits() {
-        assertEquals(true, SnilsValidator.validateSnils("112-233-445-95-000"));
+    void testVeryLongString() {
+        assertEquals(true, SnilsValidator.validateSnils("112-233-445 95" + "0".repeat(1000)));
     }
     @Test
     void testValidSnilsAtMaximum() {
@@ -42,4 +42,25 @@ public class SnilsValidatorTest {
     void testInvalidSnilsWithNull() {
         assertEquals(false, SnilsValidator.validateSnils(null));
     }
+    @Test
+    void testEmptyString() {
+        assertEquals(false, SnilsValidator.validateSnils(""));
+    }
+    @Test
+    void testStringOfSpaces() {
+        assertEquals(false, SnilsValidator.validateSnils("   "));
+    }
+    @Test
+    void testSnilsWithLetters() {
+        assertEquals(false, SnilsValidator.validateSnils("112-233-ABC 95"));
+    }
+    @Test
+    void testSnilsWithoutSeparators() {
+        assertEquals(true, SnilsValidator.validateSnils("11223344595"));
+    }
+    @Test
+    void testSnilsWithDifferentSeparators() {
+        assertEquals(true, SnilsValidator.validateSnils("112.233.445 95"));
+    }
 }
+
