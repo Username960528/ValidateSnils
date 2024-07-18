@@ -12,6 +12,10 @@ targetCompatibility = '11'
 repositories {
     mavenCentral()
 }
+task stage(dependsOn: ['build', 'clean']) {
+    // Ensures 'build' task is executed after 'clean' task
+    build.mustRunAfter clean
+}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
