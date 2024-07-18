@@ -1,1 +1,1 @@
-web: java -jar build/libs/snils.jar
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar build/libs/snils.jar
