@@ -79,6 +79,27 @@
         .snils-card.invalid {
             box-shadow: 0 0 20px rgba(220, 53, 69, 0.5);
         }
+        .valid {
+            border-color: #28a745 !important;
+            background-color: #d4edda !important;
+        }
+        .invalid {
+            border-color: #dc3545 !important;
+            background-color: #f8d7da !important;
+        }
+        .in-progress {
+            border-color: #6f42c1 !important;
+            background-color: #e9ecef !important;
+        }
+        .snils-card.valid {
+            box-shadow: 0 0 20px rgba(40, 167, 69, 0.5);
+        }
+        .snils-card.invalid {
+            box-shadow: 0 0 20px rgba(220, 53, 69, 0.5);
+        }
+        .snils-card.in-progress {
+            box-shadow: 0 0 20px rgba(111, 66, 193, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -113,7 +134,6 @@
     </div>
 </div>
 
-
 <a href="https://snils-8d92e727669f.herokuapp.com/swagger-ui/index.html" target="_blank" title="Открыть Swagger UI" class="swagger-icon">
     <i class="bi bi-file-earmark-text"></i>
 </a>
@@ -141,23 +161,35 @@
 
         updateSnilsCard(snils);
 
-        if (snils.length === 11) {
+        const resultMessage = document.getElementById('resultMessage');
+        const snilsCard = document.getElementById('snilsCard');
+
+        if (snils.length === 0) {
+            // Если поле пустое, убираем все классы
+            input.classList.remove('valid', 'invalid', 'in-progress');
+            snilsCard.classList.remove('valid', 'invalid', 'in-progress');
+            resultMessage.className = 'result-message';
+            resultMessage.textContent = '';
+        } else if (snils.length < 11) {
+            // Если СНИЛС введен не полностью, показываем фиолетовый цвет
+            input.classList.remove('valid', 'invalid');
+            input.classList.add('in-progress');
+            snilsCard.classList.remove('valid', 'invalid');
+            snilsCard.classList.add('in-progress');
+            resultMessage.className = 'result-message alert alert-info show';
+            resultMessage.textContent = 'Введите полный СНИЛС';
+        } else {
+            // Если СНИЛС введен полностью, проводим валидацию
             validateSnils(snils).then(isValid => {
-                input.classList.remove('valid', 'invalid');
+                input.classList.remove('valid', 'invalid', 'in-progress');
                 input.classList.add(isValid ? 'valid' : 'invalid');
 
-                const resultMessage = document.getElementById('resultMessage');
                 resultMessage.textContent = isValid ? 'СНИЛС корректен' : 'СНИЛС некорректен';
                 resultMessage.className = `result-message alert ${isValid ? 'alert-success' : 'alert-danger'} show`;
 
-                const snilsCard = document.getElementById('snilsCard');
-                snilsCard.classList.remove('valid', 'invalid');
+                snilsCard.classList.remove('valid', 'invalid', 'in-progress');
                 snilsCard.classList.add(isValid ? 'valid' : 'invalid');
             });
-        } else {
-            input.classList.remove('valid', 'invalid');
-            document.getElementById('resultMessage').className = 'result-message';
-            document.getElementById('snilsCard').classList.remove('valid', 'invalid');
         }
     }
 
@@ -172,6 +204,7 @@
         });
     }
 
+    document.getElementById('snilsInput').addEventListener('input', handleInput);
     document.getElementById('snilsInput').addEventListener('paste', function(e) {
         e.preventDefault();
         const pastedText = (e.clipboardData || window.clipboardData).getData('text');
@@ -179,5 +212,3 @@
         handleInput({ target: this });
     });
 </script>
-</body>
-</html></html>
