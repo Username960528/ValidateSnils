@@ -1,5 +1,6 @@
 package org.example.test;
 
+import org.example.SnilsValidatorApplication;
 import org.example.ValidateSnilsRequest;
 import org.example.ValidateSnilsResponse;
 import org.junit.jupiter.api.Test;
@@ -11,8 +12,8 @@ import org.example.config.WebServiceConfig;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
-@ContextConfiguration(classes = {WebServiceConfig.class})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@ContextConfiguration(classes = {SnilsValidatorApplication.class, WebServiceConfig.class})
 public class SnilsValidatorEndpointTest {
 
     @Autowired
