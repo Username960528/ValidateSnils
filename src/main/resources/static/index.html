@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>SNILS Validator</title>
-    <script>
+    <script> // pam
         async function validateSnils() {
             const snils = document.getElementById("snils").value;
             const response = await fetch(`/validate?snils=${snils}`);
             const result = await response.text();
             document.getElementById("result").innerText = result;
         }
+
     </script>
 </head>
 <body>
