@@ -1,1 +1,1 @@
-web: java -jar target/snils.jar
+web: java -jar build/libs/snils.jar
