@@ -46,11 +46,62 @@
         .swagger-icon:hover {
             color: #0a58ca;
         }
+        .snils-card {
+            width: 300px;
+            height: 180px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            margin: 20px auto;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .snils-number {
+            font-size: 24px;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .snils-digit {
+            display: inline-block;
+            width: 20px;
+            height: 30px;
+            background-color: #fff;
+            margin: 0 2px;
+            border-radius: 3px;
+            text-align: center;
+            line-height: 30px;
+            transition: all 0.3s ease;
+        }
+        .snils-card.valid {
+            box-shadow: 0 0 20px rgba(40, 167, 69, 0.5);
+        }
+        .snils-card.invalid {
+            box-shadow: 0 0 20px rgba(220, 53, 69, 0.5);
+        }
     </style>
 </head>
 <body>
 <div class="container mt-5">
     <h1 class="text-center mb-4">Валидатор СНИЛС</h1>
+    <div class="snils-card" id="snilsCard">
+        <div class="snils-number" id="snilsNumber">
+            <span class="snils-digit">_</span>
+            <span class="snils-digit">_</span>
+            <span class="snils-digit">_</span>
+            <span class="snils-digit">-</span>
+            <span class="snils-digit">_</span>
+            <span class="snils-digit">_</span>
+            <span class="snils-digit">_</span>
+            <span class="snils-digit">-</span>
+            <span class="snils-digit">_</span>
+            <span class="snils-digit">_</span>
+            <span class="snils-digit">_</span>
+            <span class="snils-digit">-</span>
+            <span class="snils-digit">_</span>
+            <span class="snils-digit">_</span>
+        </div>
+    </div>
     <div class="card shadow-sm">
         <div class="card-body">
             <div class="form-group">
@@ -61,6 +112,7 @@
         </div>
     </div>
 </div>
+
 
 <a href="https://snils-8d92e727669f.herokuapp.com/swagger-ui/index.html" target="_blank" title="Открыть Swagger UI" class="swagger-icon">
     <i class="bi bi-file-earmark-text"></i>
@@ -79,6 +131,8 @@
         input.value = input.value.replace(/\D/g, '');
         const snils = input.value.substring(0, 11);
 
+        updateSnilsCard(snils);
+
         if (snils.length === 11) {
             validateSnils(snils).then(isValid => {
                 input.classList.remove('valid', 'invalid');
@@ -87,14 +141,30 @@
                 const resultMessage = document.getElementById('resultMessage');
                 resultMessage.textContent = isValid ? 'СНИЛС корректен' : 'СНИЛС некорректен';
                 resultMessage.className = `result-message alert ${isValid ? 'alert-success' : 'alert-danger'} show`;
+
+                const snilsCard = document.getElementById('snilsCard');
+                snilsCard.classList.remove('valid', 'invalid');
+                snilsCard.classList.add(isValid ? 'valid' : 'invalid');
             });
         } else {
             input.classList.remove('valid', 'invalid');
             document.getElementById('resultMessage').className = 'result-message';
+            document.getElementById('snilsCard').classList.remove('valid', 'invalid');
         }
+    }
+
+    function updateSnilsCard(snils) {
+        const snilsDigits = document.querySelectorAll('.snils-digit');
+        let snilsIndex = 0;
+        snilsDigits.forEach((digit, index) => {
+            if (digit.textContent !== '-') {
+                digit.textContent = snilsIndex < snils.length ? snils[snilsIndex] : '_';
+                snilsIndex++;
+            }
+        });
     }
 
     document.getElementById('snilsInput').addEventListener('input', handleInput);
 </script>
 </body>
-</html>
+</html></html>
