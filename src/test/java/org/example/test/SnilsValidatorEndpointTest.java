@@ -3,18 +3,28 @@ package org.example.test;
 import org.example.SnilsValidatorApplication;
 import org.example.ValidateSnilsRequest;
 import org.example.ValidateSnilsResponse;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.example.config.WebServiceConfig;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(classes = {SnilsValidatorApplication.class, WebServiceConfig.class})
 public class SnilsValidatorEndpointTest {
+
+    @LocalServerPort
+    private int port;
+
+    @BeforeEach
+    public void setUp() {
+        webServiceTemplate.setDefaultUri("http://localhost:" + port + "/ws");
+    }
 
     @Autowired
     private WebServiceTemplate webServiceTemplate;
@@ -67,7 +77,9 @@ public class SnilsValidatorEndpointTest {
     void testInvalidSnilsWithNullEndpoint() {
         validateSnils(null, "Некорректный");
     }
+
+    @Test
     void testInvalidSnilsWithWords() {
-        validateSnils("abrakadabra", "Неккоректный");
+        validateSnils("abrakadabra", "Некорректный");
     }
 }
