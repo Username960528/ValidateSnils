@@ -103,6 +103,15 @@
         .snils-card.in-progress {
             box-shadow: 0 0 20px rgba(111, 66, 193, 0.5);
         }
+        #fireworks-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
     </style>
 </head>
 <body>
@@ -143,10 +152,34 @@
 <a href="https://github.com/Username960528?tab=repositories" target="_blank" title="Открыть GitHub" class="github-icon">
     <i class="bi bi-github"></i>
 </a>
+<div id="fireworks-container"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.x/dist/index.umd.js"></script>
+
 <script>
+    let fireworks;
+
+    function initFireworks() {
+        const container = document.getElementById('fireworks-container');
+        fireworks = new Fireworks.default(container, {
+            hue: { min: 0, max: 360 }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        initFireworks();
+    });
+
+    function startFireworks() {
+        if (fireworks) {
+            fireworks.start();
+            setTimeout(() => fireworks.stop(), 3000);
+        }
+    }
+
+
     function validateSnils(snils) {
         return fetch(`/validate?snils=${snils}`)
             .then(response => response.text())
@@ -165,6 +198,8 @@
 
         // Устанавливаем очищенное значение обратно в поле ввода
         input.value = snils;
+
+
 
         updateSnilsCard(snils);
 
@@ -198,11 +233,14 @@
                 snilsCard.classList.add(isValid ? 'valid' : 'invalid');
 
                 if (isValid) {
-                    confetti({
-                        particleCount: 100,
-                        spread: 70,
-                        origin: { y: 0.6 }
-                    });
+                    startFireworks();
+                    setTimeout(() => {
+                        confetti({
+                            particleCount: 100,
+                            spread: 70,
+                            origin: { y: 0.6 }
+                        });
+                    }, 100);
                 }
             });
         }
